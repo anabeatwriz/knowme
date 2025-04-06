@@ -29,8 +29,8 @@ form.addEventListener('submit', function(event) {
 
 async function carregarFotosNASA() {
   const container = document.getElementById('nasa-photos');
-  const apiKey = 'DEMO_KEY';
-  const count = 6;
+  const apiKey = 'gl19xLrXGIs7QAcz9oZajaJbTB0MomHDCvsBfMSJ';
+  const count = 10;
 
   try {
     const res = await fetch(`https://api.nasa.gov/planetary/apod?api_key=${apiKey}&count=${count}`);
@@ -63,10 +63,11 @@ async function carregarFotosNASA() {
 function carregarFraseInspiradora() {
   const container = document.getElementById('frase-inspiradora');
 
-  fetch('https://api.quotable.io/random')
+  fetch('https://type.fit/api/quotes')
     .then(res => res.json())
     .then(data => {
-      container.textContent = `"${data.content}" — ${data.author}`;
+      const fraseAleatoria = data[Math.floor(Math.random() * data.length)];
+      container.textContent = `"${fraseAleatoria.text}" — ${fraseAleatoria.author || "Desconhecido"}`;
     })
     .catch(() => {
       container.textContent = 'Nós somos feitos de poeira de estrelas.';
