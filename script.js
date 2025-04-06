@@ -10,19 +10,19 @@ form.addEventListener('submit', function(event) {
   const mensagem = document.getElementById('mensagem').value.trim();
 
   if (nome === '' || email === '' || mensagem === '') {
-    feedback.textContent = 'Preencher os campos é como abrir as janelas da alma — tente novamente, com carinho.';
+    feedback.textContent = 'Preencher os campos é importante — tente novamente!';
     feedback.style.color = '#F48FB1';
     return;
   }
 
   const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
   if (!emailRegex.test(email)) {
-    feedback.textContent = 'Hmm... esse e-mail parece não estar pronto para voar pelo cosmos. Verifique-o com carinho.';
+    feedback.textContent = 'Hmm... esse e-mail parece não estar pronto para voar pelo cosmos. Verifique-o.';
     feedback.style.color = '#F48FB1';
     return;
   }
 
-  feedback.textContent = 'Sua mensagem foi lançada ao universo com sucesso (simuladamente, mas cheia de sentimento)!';
+  feedback.textContent = 'Sua mensagem foi lançada ao universo com sucesso :)';
   feedback.style.color = '#4caf50';
   form.reset();
 });
@@ -60,23 +60,18 @@ async function carregarFotosNASA() {
   }
 }
 
-async function carregarFraseInspiradora() {
+function carregarFraseInspiradora() {
   const container = document.getElementById('frase-inspiradora');
 
-  try {
-    const res = await fetch('https://api.allorigins.win/get?url=' + encodeURIComponent('https://api.quotable.io/random'));
-    const dataWrapped = await res.json();
-    const data = JSON.parse(dataWrapped.contents);
-
-    container.textContent = `“${data.content}” — ${data.author}`;
-    container.style.opacity = 1;
-  } catch (error) {
-    container.textContent = 'Nós somos feitos de poeira de estrelas.';
-    container.style.opacity = 1;
-    console.error('Erro ao buscar frase inspiradora:', error);
-  }
+  fetch('https://api.quotable.io/random')
+    .then(res => res.json())
+    .then(data => {
+      container.textContent = `"${data.content}" — ${data.author}`;
+    })
+    .catch(() => {
+      container.textContent = 'Nós somos feitos de poeira de estrelas.';
+    });
 }
-
 
 window.addEventListener('DOMContentLoaded', () => {
   carregarFotosNASA();
