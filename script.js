@@ -60,18 +60,23 @@ async function carregarFotosNASA() {
   }
 }
 
-function carregarFraseInspiradora() {
+async function carregarFraseInspiradora() {
   const container = document.getElementById('frase-inspiradora');
 
-  fetch('https://api.quotable.io/random')
-    .then(res => res.json())
-    .then(data => {
-      container.textContent = `"${data.content}" — ${data.author}`;
-    })
-    .catch(() => {
-      container.textContent = 'Mesmo em silêncio, o universo tem algo a dizer...';
-    });
+  try {
+    const res = await fetch('https://api.allorigins.win/get?url=' + encodeURIComponent('https://api.quotable.io/random'));
+    const dataWrapped = await res.json();
+    const data = JSON.parse(dataWrapped.contents);
+
+    container.textContent = `“${data.content}” — ${data.author}`;
+    container.style.opacity = 1;
+  } catch (error) {
+    container.textContent = 'Nós somos feitos de poeira de estrelas.';
+    container.style.opacity = 1;
+    console.error('Erro ao buscar frase inspiradora:', error);
+  }
 }
+
 
 window.addEventListener('DOMContentLoaded', () => {
   carregarFotosNASA();
